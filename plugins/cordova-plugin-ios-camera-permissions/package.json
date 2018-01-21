@@ -1,0 +1,73 @@
+{
+  "name": "cordova-plugin-ios-camera-permissions",
+  "version": "1.2.0",
+  "author": {
+    "name": "Andreas Jacob",
+    "email": "andreas@cordobo.de",
+    "url": "http://cordobo.com/"
+  },
+  "description": "Cordova / PhoneGap Plugin Permission Settings for NSCameraUsageDescription, NSPhotoLibraryUsageDescription, NSPhotoLibraryAddUsageDescription and NSMicrophoneUsageDescription in iOS 11 by adding a declaration to the Info.plist file",
+  "cordova": {
+    "id": "cordova-plugin-ios-camera-permissions",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cordobo/cordova-plugin-ios-camera-permissions.git"
+  },
+  "keywords": [
+    "cordova",
+    "ios",
+    "ios10",
+    "ios11",
+    "app",
+    "security",
+    "permissions",
+    "nscamerausagedescription",
+    "nsphotolibraryaddusagedescription",
+    "nsphotolibraryusagedescription",
+    "nsmicrophoneusagedescription",
+    "ecosystem:cordova",
+    "cordova-ios"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cordobo/cordova-plugin-ios-camera-permissions/issues"
+  },
+  "homepage": "https://github.com/cordobo/cordova-plugin-ios-camera-permissions#readme",
+  "gitHead": "c5d86e4d70f8266357b9aac57b794b0f03ec5157",
+  "_id": "cordova-plugin-ios-camera-permissions@1.2.0",
+  "scripts": {},
+  "_shasum": "94612c7de5fdcf59b8630057b50739b4909e0ac9",
+  "_from": "cordova-plugin-ios-camera-permissions@latest",
+  "_npmVersion": "4.6.1",
+  "_nodeVersion": "6.11.1",
+  "_npmUser": {
+    "name": "cordobo",
+    "email": "cordobo@web.de"
+  },
+  "dist": {
+    "shasum": "94612c7de5fdcf59b8630057b50739b4909e0ac9",
+    "tarball": "https://registry.npmjs.org/cordova-plugin-ios-camera-permissions/-/cordova-plugin-ios-camera-permissions-1.2.0.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "cordobo",
+      "email": "cordobo@web.de"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/cordova-plugin-ios-camera-permissions-1.2.0.tgz_1506066926639_0.28083229484036565"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-ios-camera-permissions/-/cordova-plugin-ios-camera-permissions-1.2.0.tgz"
+}

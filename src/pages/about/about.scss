@@ -1,3 +1,15 @@
 page-about {
+  .button-ios,.button-md,.button-wp {
 
+  padding:17px!important;
+}
+.avatarBtn{
+  padding:0!important;
+}
+  .item-ios ion-avatar img {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 45px;
+    height: 45px;
+  }
 }

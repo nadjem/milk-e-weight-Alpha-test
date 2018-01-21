@@ -1,17 +1,187 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title width-67><img src="assets/imgs/milkNav.png" style="width: 60px"/></ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+
+
+<ion-content>
+
+  <ion-list>
+    <ion-item>
+      <button *ngIf="!showAddBottle" ion-button icon-left (click)="addBottleFeed()">
+        <ion-icon name="ios-add-circle-outline"></ion-icon>
+        new bottle feeds
+      </button>
+      <button *ngIf="showAddBottle" ion-button icon-left (click)="addBottleFeed()">
+        <ion-icon name="ios-close-circle-outline"></ion-icon>
+        close
+      </button>
+
+      <button item-right *ngIf="!showAddBreast" ion-button icon-left (click)="addBreastFeed()">
+        <ion-icon name="ios-add-circle-outline"></ion-icon>
+        new breast feeding
+      </button>
+      <button item-right *ngIf="showAddBreast" ion-button icon-left (click)="addBreastFeed()">
+        <ion-icon name="ios-close-circle-outline"></ion-icon>
+        close
+      </button>
+
+    </ion-item>
+      <!--
+          ADD BOTTLE FEED
+       -->
+    <div class="addOne" *ngIf="showAddBottle">
+  <form #form="ngForm" id="feed-form" class="text-left" (ngSubmit)="newFeeds(form.value)">
+
+    <ion-item>
+      Quantity :
+      <ion-badge item-end *ngIf="milkWeigh">{{milkWeigh}} ml</ion-badge>
+    </ion-item>
+
+    <ion-item>
+
+      <ion-range min="0" max="360" step="5" [(ngModel)]="milkWeigh" name="milkWeigh" color="secondary" pin="true">
+        <ion-icon range-left small name="ai-biberon"></ion-icon>
+        <ion-label range-left>0</ion-label>
+        <ion-label range-right>360</ion-label>
+        <ion-icon range-right large name="ai-biberon"></ion-icon>
+      </ion-range>
+    </ion-item>
+  <ion-item>
+    <ion-label *ngIf="!dateType">now (date/hour) </ion-label>
+    <ion-label *ngIf="dateType"> custom (date/hour)</ion-label>
+    <ion-toggle [(ngModel)]="dateType" name="dateType" checked="true"></ion-toggle>
+  </ion-item>
+
+  <ion-item *ngIf="dateType">
+    <ion-label>Feed Date</ion-label>
+    <ion-badge item-end *ngIf="!feedDate">add</ion-badge>
+    <ion-datetime  displayFormat="DD/MM/YYYY" pickerFormat="DD MM YYYY" [(ngModel)]="feedDate" name="feedDate"></ion-datetime>
+  </ion-item>
+
+  <ion-item *ngIf="dateType">
+    <ion-label>Feed Hour </ion-label>
+    <ion-badge item-end *ngIf="!feedHour">add</ion-badge>
+    <ion-datetime  displayFormat="HH:mm" pickerFormat="HH mm " [(ngModel)]="feedHour" name="feedHour"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <button item-right="" type="submit" ion-button icon-left>
+      <ion-icon  name="md-archive"></ion-icon>
+      save
+    </button>
+  </ion-item>
+  </form>
+</div>
+
+      <!--
+          ADD BREAST FEED
+          ios-timer-outline
+       -->
+    <div class="addTwo" *ngIf="showAddBreast">
+      <ion-list>
+        <ion-item>
+          <h4 ion-text>StopWatch Feeds</h4>
+        </ion-item>
+        <ion-item>
+          <ion-row>
+            <ion-col col-6>
+              <p class="timer-text" ion-text item-left>right breast</p>
+              <ion-badge *ngIf="!rightBreastStarted" class="timer-badge" item-left color="secondary">{{time}}</ion-badge>
+              <ion-badge *ngIf="rightBreastStarted"  class="timer-badge" item-left color="danger"   >{{time}}</ion-badge>
+            </ion-col>
+            <ion-col col-6>
+              <p class="timer-text" ion-text item-right>left breast</p>
+              <ion-badge *ngIf="!leftBreastStarted" class="timer-badge" item-left color="secondary">{{time2}}</ion-badge>
+              <ion-badge *ngIf="leftBreastStarted"  class="timer-badge" item-left color="danger"   >{{time2}}</ion-badge>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+            <button item-end ion-button class="submit-btn" (click)="rasee()" >Clear All</button>
+            </ion-item>
+          </ion-row>
+        </ion-item>
+      <form>
+
+        <ion-item>
+          <ion-row>
+
+              <button *ngIf="!rightBreastStarted" ion-button full icon-left (click)="rightBreastTimer()">
+                <ion-icon name="ios-timer-outline">
+                </ion-icon>
+                Start Right Breast
+              </button>
+            <button *ngIf="rightBreastStarted" ion-button full icon-left (click)="rightBreastTimerStop()">
+              <ion-icon name="ios-timer-outline">
+              </ion-icon>
+              Stop Right Breast
+            </button>
+
+              <button *ngIf="!leftBreastStarted" ion-button full icon-left (click)="leftBreastTimer()">
+                <ion-icon name="ios-timer-outline">
+                </ion-icon>
+                Start Left Breast
+              </button>
+            <button *ngIf="leftBreastStarted" ion-button full icon-left (click)="leftBreastTimerStop()">
+              <ion-icon name="ios-timer-outline">
+              </ion-icon>
+              Stop Left Breast
+            </button>
+
+          </ion-row>
+        </ion-item>
+
+
+        <ion-item>
+           <button item-end ion-button class="submit-btn" (click)="saveBreast()" >Save</button>
+        </ion-item>
+
+      </form>
+      </ion-list>
+    </div>
+
+
+
+
+
+    <!--
+        FEED LIST
+     -->
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content>
+      </ion-refresher-content>
+    </ion-refresher>
+    <ion-item-divider color="light"><strong>Today feeds</strong>
+      <ion-badge *ngIf="total >= 1000" item-end >{{total / 10}} cl </ion-badge>
+      <ion-badge *ngIf="total < 1000" item-end >{{total}} ml</ion-badge>
+    </ion-item-divider>
+
+
+    <ion-item-sliding *ngFor="let feed of feeds | orderBy: 'savedAtHours'">
+    <ion-item>
+<p>{{feed?.savedAtHours}}</p> <p ion-text>{{feed?.feedType}}</p>
+      <ion-badge *ngIf="feed?.feedType != 'breast-feeding' " item-end>{{feed?.quantity}} ml</ion-badge>
+      <ion-badge color="light" *ngIf="feed?.feedType == 'breast-feeding' " item-end>right: {{feed?.rightBreastData}}min</ion-badge>
+      <ion-badge color="light" *ngIf="feed?.feedType == 'breast-feeding' " item-end>left: {{feed?.leftBreastData }}min</ion-badge>
+    </ion-item>
+      <ion-item-options side="righ">
+        <button ion-button color="primary" (click)="goToUpdatePage(feed)">
+          <ion-icon small name="ios-create-outline"></ion-icon>
+          update
+        </button>
+        <button ion-button color="danger" (click)="deleteFeed(feed._id)">
+          <ion-icon small name="ios-close-circle-outline"></ion-icon>
+          delete
+        </button>
+      </ion-item-options>
+      </ion-item-sliding>
+
+
+
+
+  </ion-list>
+
 </ion-content>

@@ -1,11 +1,172 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      About
+      Account
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
+<!--<pre>{{userData | json}}</pre>-->
+  <ion-list>
+    <ion-item-divider color="light"><strong>Baby</strong></ion-item-divider>
+      <ion-item>
+        <ion-avatar item-start>
+          <button class="avatarBtn" *ngIf="loggedIsAdmin" ion-button (click)="changeAvatar()" clear>
+            <img [src]="avatarUrl"  />
+          </button>
+        </ion-avatar>
+
+      <h4><strong>{{userData?.babyName | uppercase}}</strong></h4>
+      <p>{{userData?.dateOfBirth | date:'dd MMM yyyy'}}</p>
+        <ion-badge>4.800 kg</ion-badge>
+
+        <button *ngIf="loggedIsAdmin" item-right   ion-button icon-left class="btnWeigh" (click)="showUpdateWeigh()" >
+          <ion-icon small name="ai-balance-scal"></ion-icon>
+          update
+        </button>
+      </ion-item>
+    <ion-item>
+      {{avatarUrl}}
+    </ion-item>
+    <div class="updateWeigh" *ngIf="showingUpdateWeigh">
+    <ion-item-divider color="light"><strong>Update Weigh</strong></ion-item-divider>
+
+
+      <ion-item *ngIf="babyWeigh" >
+        <ion-badge *ngIf="babyWeigh">{{babyWeigh / 1000}} kg</ion-badge>
+      </ion-item>
+      <ion-item>
+        <ion-range min="0" max="10000" step="25"   [(ngModel)]="babyWeigh" name="babyWeigh" color="secondary" pin="false">
+<!--
+          <ion-icon range-left small name="ai-biberon"></ion-icon>
+-->
+          <ion-label range-left>0</ion-label>
+          <ion-label range-right>10kg </ion-label>
+<!--
+          <ion-icon range-right large name="ai-biberon"></ion-icon>
+-->
+        </ion-range>
+
+      </ion-item>
+
+    <ion-item>
+
+      <button ion-button item-right icon-left class="btnWeigh" >
+        <ion-icon small name="md-archive"></ion-icon>
+        save
+      </button>
+    </ion-item>
+    </div>
+
+  </ion-list>
+
+  <ion-list>
+    <ion-item-divider color="light"><strong>Account logged as {{loggedAs | upperfirst}}</strong></ion-item-divider>
+
+    <ion-item>
+      <h3><strong>First User  :</strong></h3>
+        <p><strong>mail</strong> :{{userData?.mail}}</p>
+        <p><strong>user name</strong> :{{userData?.userName}}</p>
+    </ion-item>
+    <ion-item>
+      <h3>
+        <strong>User list :</strong>
+      </h3>
+    </ion-item>
+
+      <div *ngFor="let user of userData?.userSecondaire" >
+        <ion-item *ngIf="user._id && !user.isAdmin  ">
+          <!--{{user?.isAdmin}}-->
+        <p><strong>user Name</strong>: {{user?.userAssistUserName }}</p>
+        <p><strong>mail</strong>: {{user?.userAssistMail }}</p>
+      <button *ngIf="loggedIsAdmin" ion-button item-right icon-left (click)="setAdmin(user?._id)" >
+        <ion-icon small name="ios-key-outline"></ion-icon>
+        set it admin
+      </button>
+        </ion-item>
+      </div>
+
+    <ion-item>
+      <h3>
+        <strong>Admin list :</strong>
+      </h3>
+    </ion-item>
+
+    <div *ngFor="let user of userData?.userSecondaire" >
+      <ion-item *ngIf="user.isAdmin ">
+        <!--{{user?.isAdmin}}-->
+        <p><strong>user Name</strong>: {{user?.userAssistUserName }}</p>
+        <p><strong>mail</strong>: {{user?.userAssistMail }}</p>
+        <button *ngIf="(user?.userAssistUserName |upperfirst)  != (userData?.userName |upperfirst) && loggedIsAdmin" ion-button item-right icon-left (click)="setUser(user?._id)" >
+
+          <ion-icon small name="ios-key-outline"></ion-icon>
+          set it user
+        </button>
+      </ion-item>
+    </div>
+
+
+  </ion-list>
+
+
+  <ion-list *ngIf="loggedIsAdmin">
+    <ion-item-divider color="light"><strong>Update First User</strong></ion-item-divider>
+    <ion-item>
+      <ion-label stacked>Mail</ion-label>
+      <ion-input type="text" placeholder="{{userData?.mail}}"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>User Name</ion-label>
+      <ion-input type="text" placeholder="{{userData?.userName}}"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Password</ion-label>
+      <ion-input type="password" placeholder="******************"></ion-input>
+    </ion-item>
+    <ion-item>
+      <button ion-button item-right icon-left class="btnWeigh" >
+        <ion-icon small name="md-archive"></ion-icon>
+        save
+      </button>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="loggedIsAdmin">
+    <ion-item-divider color="light"><strong>Add User</strong></ion-item-divider>
+    <form (ngSubmit)="addUser(addUserForm.value)" [formGroup]="addUserForm">
+    <ion-item>
+      <ion-label stacked>Email</ion-label>
+      <ion-input type="email" placeholder="Email" name="email"  [formControl]="addUserForm.controls.email"  required></ion-input>
+    </ion-item>
+      <ion-item>
+        <ion-label stacked>User Name</ion-label>
+        <ion-input type="text" placeholder="User Name" name="userName"  [formControl]="addUserForm.controls.userName"  required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Role</ion-label>
+        <ion-select [formControl]="addUserForm.controls.role" name="role">
+          <ion-option value="Father">Father</ion-option>
+          <ion-option value="Mother">Mother</ion-option>
+          <ion-option value="Grandfather">Grandfather</ion-option>
+          <ion-option value="Grandmother">Grandmother</ion-option>
+          <ion-option value="Nurse">Nurse</ion-option>
+        </ion-select>
+      </ion-item>
+    <ion-item>
+      <ion-label stacked>Password</ion-label>
+      <ion-input type="password" placeholder="Password" name="password" [formControl]="addUserForm.controls.password" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <button type="submit" ion-button item-right icon-left class="btnWeigh" >
+        <ion-icon small name="md-archive"></ion-icon>
+        save
+      </button>
+    </ion-item>
+    </form>
+  </ion-list>
+
 
 </ion-content>

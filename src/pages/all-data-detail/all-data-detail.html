@@ -1,0 +1,85 @@
+<!--
+  Generated template for the AllDataDetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>stored feeds </ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-list>
+
+    <ion-item-divider color="light"><p ion-text>bottle-feeding</p><strong>{{dataDate}}</strong>
+      <ion-badge *ngIf="dataSum >= 1000" item-end >{{dataSum / 10}} cl </ion-badge>
+      <ion-badge *ngIf="dataSum < 1000" item-end >{{dataSum}} ml</ion-badge>
+    </ion-item-divider>
+
+    <ion-item-sliding *ngFor="let feed of feeds | orderBy: 'savedAtHours'">
+      <ion-item>
+
+        <p>{{feed?.savedAtHours}}</p> <p ion-text>{{feed?.feedType}}</p>
+        <ion-badge *ngIf="feed?.feedType != 'breast-feeding' " item-end>{{feed?.quantity}} ml</ion-badge>
+        <ion-badge color="light" *ngIf="feed?.feedType == 'breast-feeding' " item-end>right: {{feed?.rightBreastData}}min</ion-badge>
+        <ion-badge color="light" *ngIf="feed?.feedType == 'breast-feeding' " item-end>left: {{feed?.leftBreastData }}min</ion-badge>
+      </ion-item>
+      <ion-item-options side="righ">
+        <button ion-button color="primary" (click)="goToUpdatePage(feed)">
+          <ion-icon small name="ios-create-outline"></ion-icon>
+          update
+        </button>
+        <button ion-button color="danger" (click)="deleteFeed(feed._id)">
+          <ion-icon small name="ios-close-circle-outline"></ion-icon>
+          delete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+<ion-item>
+  <button ion-button (click)="showChart()">
+    show diagram
+  </button>
+</ion-item>
+  </ion-list>
+  <ion-item class="chartDiv" *ngIf="visibleChart">
+    <div>
+      <div style="display: block">
+        <canvas baseChart
+                [datasets]="barChartData"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"
+                [legend]="barChartLegend"
+                [chartType]="barChartType"
+                ></canvas>
+      </div>
+
+    </div>
+  </ion-item>
+  <ion-list *ngIf="breastFeeds?.length > 0">
+    <ion-item-divider color="light"><p ion-text>breast-feeding</p><strong>{{dataDate}}</strong>
+    </ion-item-divider>
+    <ion-item-sliding *ngFor="let feed of breastFeeds | orderBy: 'savedAtHours'">
+      <ion-item>
+
+        <p>{{feed?.savedAtHours}}</p> <p ion-text>{{feed?.feedType}}</p>
+        <ion-badge color="light" *ngIf="feed?.feedType == 'breast-feeding' " item-end>right: {{feed?.rightBreastData}}min</ion-badge>
+        <ion-badge color="light" *ngIf="feed?.feedType == 'breast-feeding' " item-end>left: {{feed?.leftBreastData }}min</ion-badge>
+      </ion-item>
+      <ion-item-options side="righ">
+        <button ion-button color="primary" (click)="goToUpdatePage(feed)">
+          <ion-icon small name="ios-create-outline"></ion-icon>
+          update
+        </button>
+        <button ion-button color="danger" (click)="deleteFeed(feed._id)">
+          <ion-icon small name="ios-close-circle-outline"></ion-icon>
+          delete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

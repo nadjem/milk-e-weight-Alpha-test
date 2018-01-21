@@ -1,3 +1,20 @@
 page-home {
 
+  .item-md .item-button {
+    padding: 0 0.6em;
+    height: 25px;
+    font-size: 1.0rem;
+  }
+  .timer-badge{
+    padding: 15px;
+    margin-left: 35px!important;
+  }
+  .timer-text{
+    margin-left: 35px!important;
+
+  }
+
+  [item-end] {
+    margin: 2px!important;
+  }
 }
